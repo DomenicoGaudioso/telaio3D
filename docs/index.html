@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"/>
+  <title>Telaio3D Web — Guida</title>
+  <style>
+    body { font-family: system-ui, Arial; max-width: 900px; margin: 2rem auto; line-height: 1.6; }
+    code { background:#f3f3f3; padding:.15rem .35rem; border-radius:6px; }
+    h1,h2 { margin-top: 1.6rem; }
+  </style>
+</head>
+<body>
+  <h1>Telaio3D Web (Streamlit + OpenSeesPy) — Come usare l’app</h1>
+
+  <h2>1) Prepara l’XLSX</h2>
+  <p>Crea un file con fogli: <code>nodes</code>, <code>elements</code>, <code>properties</code>, <code>load_cases</code>, <code>restraints</code>, <code>node_loads</code>.</p>
+  <p>Opzionali: <code>dist_loads</code>, <code>masses</code>.</p>
+
+  <h2>2) Carica e modifica</h2>
+  <p>Carica l’XLSX e modifica le tabelle direttamente nella webapp.</p>
+
+  <h2>3) Valida</h2>
+  <p>Premi <b>Valida modello</b> per controllare colonne minime e coerenza.</p>
+
+  <h2>4) Solve</h2>
+  <p>Scegli il caso di carico e premi <b>Solve ▸ Linear Static 3D</b>.</p>
+
+  <h2>5) Scarica</h2>
+  <p>Scarica l’XLSX con i fogli <code>results_nodal</code> e <code>results_elements</code>.</p>
+
+  <h2>Nota carichi trapezoidali</h2>
+  <p>I carichi trapezoidali lungo l’asta vengono approssimati come somma di carichi uniformi segmentati.
+     Aumenta lo slider “Segmenti” per maggiore accuratezza.</p>
+</body>
+</html>
