@@ -161,8 +161,10 @@ with st.sidebar:
 
     if st.session_state.sheets is not None:
         lc_df = st.session_state.sheets.get("load_cases", pd.DataFrame())
-    if lc_df is not None and not lc_df.empty and "id" in lc_df.columns:
-        lc_ids = [int(x) for x in lc_df["id"].dropna().tolist()] or [1]
+        if lc_df is not None and not lc_df.empty and "id" in lc_df.columns:
+            lc_ids = [int(x) for x in lc_df["id"].dropna().tolist()] or [1]
+        else:
+            lc_ids = [1]
     else:
         lc_ids = [1]
     active_lc = st.selectbox("Load case attivo", lc_ids, index=0)
