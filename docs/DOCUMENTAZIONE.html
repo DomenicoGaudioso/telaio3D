@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Documentazione Tecnica — Telaio3D Web</title>
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --accent: #2980b9;
+      --accent2: #27ae60;
+      --danger: #e74c3c;
+      --warn: #f39c12;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --border: #dee2e6;
+      --text: #212529;
+      --text-light: #6c757d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2c5f8a 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: var(--bg);
+      clip-path: ellipse(60% 100% at 50% 100%);
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    .hero .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+    .hero .badges {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-norm { background: #27ae60; color: white; }
+    .badge-tech { background: #2980b9; color: white; }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .toc {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    .toc h2 { margin-top: 0; color: var(--primary); }
+    .toc ul {
+      columns: 2;
+      column-gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .toc li {
+      break-inside: avoid;
+      padding: 0.25rem 0;
+    }
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .toc a:hover { text-decoration: underline; }
+    section {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    section h2 {
+      color: var(--primary);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+    }
+    h3 { color: var(--accent); margin-top: 1.5rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    th {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    tr:nth-child(even) { background: #f8fafc; }
+    tr:hover { background: #eef4fa; }
+    .formula-box {
+      background: #f4f6f9;
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 1rem 0;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+    .formula-box .label {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+    .formula-box code {
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .card h4 {
+      margin: 0 0 0.5rem 0;
+      color: var(--primary);
+    }
+    .card p, .card ul { margin: 0; font-size: 0.9rem; }
+    .note {
+      background: #e8f4fd;
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .warning {
+      background: #fef9e7;
+      border-left: 4px solid var(--warn);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .svg-container {
+      text-align: center;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .svg-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+    ul.features {
+      list-style: none;
+      padding: 0;
+    }
+    ul.features li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    ul.features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent2);
+      font-weight: bold;
+    }
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    footer .disclaimer {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .toc ul { columns: 1; }
+      .container { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Telaio3D Web</h1>
+  <p class="subtitle">Analisi Strutturale 3D — Streamlit + OpenSeesPy</p>
+  <div class="badges">
+    <span class="badge badge-norm">NTC 2018</span>
+    <span class="badge badge-norm">Eurocodice 3</span>
+    <span class="badge badge-tech">OpenSeesPy</span>
+    <span class="badge badge-tech">xlsx I/O</span>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h2>📑 Indice dei Contenuti</h2>
+  <ul>
+    <li><a href="#descrizione">1. Descrizione</a></li>
+    <li><a href="#funzionalita">2. Funzionalità</a></li>
+    <li><a href="#input">3. Input richiesti</a></li>
+    <li><a href="#output">4. Output prodotti</a></li>
+    <li><a href="#normativa">5. Normativa</a></li>
+    <li><a href="#formule">6. Formulario</a></li>
+    <li><a href="#esempio">7. Esempio</a></li>
+    <li><a href="#diagramma">8. Diagramma</a></li>
+  </ul>
+</div>
+
+<section id="descrizione">
+  <h2>1. Descrizione</h2>
+  <p><strong>Telaio3D Web</strong> è un'applicazione web per l'analisi statica lineare di telai tridimensionali. L'applicazione permette di generare geometrie parametriche, modificare tabelle di input in formato Excel, eseguire analisi strutturali con il solver <strong>OpenSeesPy</strong> e esportare i risultati.</p>
+  <p>L'app è sviluppata in <strong>Python</strong> con interfaccia <strong>Streamlit</strong> e utilizza il motore di analisi strutturale <strong>OpenSeesPy</strong> per il calcolo degli spostamenti, delle reazioni vincolari e delle sollecitazioni negli elementi.</p>
+</section>
+
+<section id="funzionalita">
+  <h2>2. Funzionalità Principali</h2>
+  <ul class="features">
+    <li>Generazione parametrica di telai 3D (campate X, Y, altezze Z)</li>
+    <li>Editor interattivo delle tabelle input tramite UI web</li>
+    <li>Import/Export file Excel (.xlsx)</li>
+    <li>Validazione automatica del modello strutturale</li>
+    <li>Analisi statica lineare 3D con OpenSeesPy</li>
+    <li>Visualizzazione 3D della struttura e della deformata</li>
+    <li>Supporto per carichi concentrati nodali (Fx, Fy, Fz, Mx, My, Mz)</li>
+    <li>Supporto per carichi distribuiti trapezoidali lungo le aste</li>
+    <li>Output: spostamenti nodali e forze negli elementi</li>
+  </ul>
+</section>
+
+<section id="input">
+  <h2>3. Input Richiesti</h2>
+  <p>Il file Excel di input deve contenere i seguenti fogli:</p>
+
+  <h3>Fogli obbligatori</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Foglio</th>
+        <th>Colonne</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>nodes</code></td>
+        <td>id, x, y, z</td>
+        <td>Coordinate nodi (m)</td>
+      </tr>
+      <tr>
+        <td><code>elements</code></td>
+        <td>id, n1, n2, prop, type</td>
+        <td>Elementi (type = beam3d)</td>
+      </tr>
+      <tr>
+        <td><code>properties</code></td>
+        <td>id, name, A, E, G, J, Iy, Iz</td>
+        <td>Proprietà sezione e materiale</td>
+      </tr>
+      <tr>
+        <td><code>load_cases</code></td>
+        <td>id, name</td>
+        <td>Casi di carico</td>
+      </tr>
+      <tr>
+        <td><code>restraints</code></td>
+        <td>load_case_id, node_id, ux, uy, uz, rx, ry, rz</td>
+        <td>Vincoli nodali (1 = bloccato)</td>
+      </tr>
+      <tr>
+        <td><code>node_loads</code></td>
+        <td>load_case_id, node_id, fx, fy, fz, mx, my, mz</td>
+        <td>Carichi nodali</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Fogli opzionali</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Foglio</th>
+        <th>Colonne</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>dist_loads</code></td>
+        <td>load_case_id, elem_id, qx0, qx1, qy0, qy1, qz0, qz1</td>
+        <td>Carichi distribuiti (trapezoidali)</td>
+      </tr>
+      <tr>
+        <td><code>masses</code></td>
+        <td>load_case_id, node_id, mx, my, mz</td>
+        <td>Masse nodali per analisi dinamica</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="output">
+  <h2>4. Output Prodotti</h2>
+  <p>Dopo l'esecuzione del solver, il file Excel viene arricchito con i seguenti fogli:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Foglio</th>
+        <th>Colonne</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>results_nodal</code></td>
+        <td>node_id, ux, uy, uz, rx, ry, rz, Fx, Fy, Fz, Mx, My, Mz</td>
+        <td>Spostamenti (m, rad) e reazioni (N, Nm)</td>
+      </tr>
+      <tr>
+        <td><code>results_elements</code></td>
+        <td>id, n1, n2, Fx_i, Fy_i, Fz_i, Mx_i, My_i, Mz_i, Fx_j, Fy_j, Fz_j, Mx_j, My_j, Mz_j</td>
+        <td>Forze locali agli estremi i e j</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="normativa">
+  <h2>5. Riferimenti Normativi</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h4>NTC 2018</h4>
+      <p>Norme Tecniche per le Costruzioni 2018 — DM 17/01/2018.</p>
+    </div>
+    <div class="card">
+      <h4>Eurocodice 3</h4>
+      <p>EN 1993-1-1:2005 — Progettazione delle strutture in acciaio.</p>
+    </div>
+    <div class="card">
+      <h4>OpenSees</h4>
+      <p>OpenSees Framework — Analisi strutturale agli elementi finiti.</p>
+    </div>
+  </div>
+  <div class="note">
+    <strong>Nota:</strong> L'applicazione implementa l'analisi statica lineare. Le verifiche di resistenza e stabilità (secondo NTC 2018, EC3) devono essere eseguite separatamente sull'output del solver.
+  </div>
+</section>
+
+<section id="formule">
+  <h2>6. Formulario</h2>
+  <p>Il solver OpenSeesPy risolve il sistema lineare:</p>
+
+  <div class="formula-box">
+    <div class="label">Equazione di equilibrio</div>
+    <code>K · u = F</code>
+  </div>
+
+  <p>dove:</p>
+  <ul>
+    <li><strong>K</strong> — Matrice di rigidezza globale della struttura 3D</li>
+    <li><strong>u</strong> — Vettore spostamenti nodali (6 DOF per nodo: ux, uy, uz, rx, ry, rz)</li>
+    <li><strong>F</strong> — Vettore forze nodali esterne</li>
+  </ul>
+
+  <p>Per elementi beam3d (asta 3D elastica):</p>
+
+  <div class="formula-box">
+    <div class="label">Matrice di rigidezza locale (12×12)</div>
+    <code>
+      A·E/L &amp; 0      &amp; 0      &amp; 0      &amp; 0     &amp; 0      &amp; ...<br>
+      0     &amp; 12·E·Iz/L³&amp; 0      &amp; 0      &amp; 0     &amp; 6·E·Iz/L²&amp; ...<br>
+      ...   &amp; ...     &amp; G·J/L  &amp; ...    &amp; ...   &amp; ...    &amp; ...
+    </code>
+  </div>
+
+  <div class="formula-box">
+    <div class="label">Parametri sezione</div>
+    <code>
+      A = Area sezione (m²)<br>
+      E = Modulo di Young (MPa)<br>
+      G = Modulo di taglio (MPa)<br>
+      J = Costante di torsione (m⁴)<br>
+      Iy = Momento d'inerzia forte (m⁴)<br>
+      Iz = Momento d'inerzia debole (m⁴)
+    </code>
+  </div>
+</section>
+
+<section id="esempio">
+  <h2>7. Esempio di Utilizzo</h2>
+  <p>Schema di un telaio 3D a due campate e due piani:</p>
+
+  <div class="warning">
+    <strong>Parametri di esempio:</strong><br>
+    Campate X: 4.0, 4.0 m<br>
+    Campate Y: 5.0 m<br>
+    Altezze Z: 3.5, 3.0, 3.0 m<br>
+    Materiale: cls 30 (E = 30000 MPa)<br>
+    Sezione: A = 0.30 m², Iy = 0.0225 m⁴, Iz = 0.015 m⁴
+  </div>
+
+  <ol>
+    <li>Generare il telaio con i parametri nel pannello laterale</li>
+    <li>Modificare le tabelle (nodes, elements, properties, ecc.)</li>
+    <li>Premere <strong>Valida modello</strong> per verificare la coerenza</li>
+    <li>Premere <strong>Solve ▸ Linear Static 3D</strong></li>
+    <li>Visualizzare i risultati nella tab <strong>plot3d</strong></li>
+    <li>Scaricare il file Excel con risultati</li>
+  </ol>
+</section>
+
+<section id="diagramma">
+  <h2>8. Schema della Geometria 3D</h2>
+  <p>Diagramma esemplificativo di un telaio 3D parametrico:</p>
+
+  <div class="svg-container">
+    <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect width="600" height="400" fill="#fafafa"/>
+
+      <!-- Ground line -->
+      <line x1="50" y1="350" x2="550" y2="350" stroke="#666" stroke-width="2" stroke-dasharray="5,5"/>
+      <text x="280" y="375" fill="#666" font-size="12">Piano Terra (z=0)</text>
+
+      <!-- Nodes and elements - Grid visualization -->
+      <!-- X direction -->
+      <line x1="100" y1="350" x2="250" y2="350" stroke="#2980b9" stroke-width="3"/>
+      <line x1="250" y1="350" x2="400" y2="350" stroke="#2980b9" stroke-width="3"/>
+      <line x1="400" y1="350" x2="500" y2="350" stroke="#2980b9" stroke-width="3"/>
+
+      <!-- Y direction (depth) -->
+      <line x1="100" y1="350" x2="100" y2="250" stroke="#27ae60" stroke-width="3" opacity="0.5"/>
+      <line x1="250" y1="350" x2="250" y2="250" stroke="#27ae60" stroke-width="3" opacity="0.5"/>
+      <line x1="400" y1="350" x2="400" y2="250" stroke="#27ae60" stroke-width="3" opacity="0.5"/>
+      <line x1="500" y1="350" x2="500" y2="250" stroke="#27ae60" stroke-width="3" opacity="0.5"/>
+
+      <!-- Columns (Z direction) -->
+      <line x1="100" y1="350" x2="100" y2="180" stroke="#e74c3c" stroke-width="4"/>
+      <line x1="250" y1="350" x2="250" y2="120" stroke="#e74c3c" stroke-width="4"/>
+      <line x1="400" y1="350" x2="400" y2="180" stroke="#e74c3c" stroke-width="4"/>
+      <line x1="500" y1="350" x2="500" y2="220" stroke="#e74c3c" stroke-width="4"/>
+
+      <!-- Floor 1 -->
+      <line x1="100" y1="180" x2="250" y2="120" stroke="#2980b9" stroke-width="3"/>
+      <line x1="250" y1="120" x2="400" y2="180" stroke="#2980b9" stroke-width="3"/>
+      <line x1="400" y1="180" x2="500" y2="220" stroke="#2980b9" stroke-width="3"/>
+
+      <!-- Floor 2 (top) -->
+      <line x1="100" y1="180" x2="250" y2="80" stroke="#2980b9" stroke-width="3" opacity="0.7"/>
+      <line x1="250" y1="120" x2="400" y2="80" stroke="#2980b9" stroke-width="3" opacity="0.7"/>
+
+      <!-- Nodes -->
+      <circle cx="100" cy="350" r="6" fill="#1a3a5c"/>
+      <circle cx="250" cy="350" r="6" fill="#1a3a5c"/>
+      <circle cx="400" cy="350" r="6" fill="#1a3a5c"/>
+      <circle cx="500" cy="350" r="6" fill="#1a3a5c"/>
+
+      <!-- Floor 1 nodes -->
+      <circle cx="100" cy="180" r="6" fill="#1a3a5c"/>
+      <circle cx="250" cy="120" r="6" fill="#1a3a5c"/>
+      <circle cx="400" cy="180" r="6" fill="#1a3a5c"/>
+      <circle cx="500" cy="220" r="6" fill="#1a3a5c"/>
+
+      <!-- Labels -->
+      <text x="80" y="370" fill="#1a3a5c" font-size="11">N1</text>
+      <text x="230" y="370" fill="#1a3a5c" font-size="11">N2</text>
+      <text x="380" y="370" fill="#1a3a5c" font-size="11">N3</text>
+      <text x="480" y="370" fill="#1a3a5c" font-size="11">N4</text>
+
+      <text x="80" y="170" fill="#1a3a5c" font-size="11">N5</text>
+      <text x="230" y="110" fill="#1a3a5c" font-size="11">N6</text>
+      <text x="380" y="170" fill="#1a3a5c" font-size="11">N7</text>
+      <text x="480" y="210" fill="#1a3a5c" font-size="11">N8</text>
+
+      <!-- Legend -->
+      <rect x="50" y="30" width="20" height="12" fill="#e74c3c" stroke="#e74c3c"/>
+      <text x="75" y="40" fill="#333" font-size="11">Pilastri (Z)</text>
+
+      <rect x="180" y="30" width="20" height="12" fill="#2980b9" stroke="#2980b9"/>
+      <text x="205" y="40" fill="#333" font-size="11">Travi X</text>
+
+      <rect x="300" y="30" width="20" height="12" fill="#27ae60" stroke="#27ae60" opacity="0.5"/>
+      <text x="325" y="40" fill="#333" font-size="11">Travi Y</text>
+
+      <!-- Dimensions -->
+      <line x1="100" y1="355" x2="250" y2="355" stroke="#333" stroke-width="1"/>
+      <line x1="100" y1="350" x2="100" y2="360" stroke="#333" stroke-width="1"/>
+      <line x1="250" y1="350" x2="250" y2="360" stroke="#333" stroke-width="1"/>
+      <text x="155" y="390" fill="#333" font-size="11">L₁</text>
+
+      <line x1="250" y1="355" x2="400" y2="355" stroke="#333" stroke-width="1"/>
+      <text x="305" y="390" fill="#333" font-size="11">L₂</text>
+
+      <!-- Height dimension -->
+      <line x1="520" y1="350" x2="520" y2="120" stroke="#333" stroke-width="1"/>
+      <line x1="515" y1="350" x2="525" y2="350" stroke="#333" stroke-width="1"/>
+      <line x1="515" y1="120" x2="525" y2="120" stroke="#333" stroke-width="1"/>
+      <text x="530" y="240" fill="#333" font-size="11">H₁</text>
+
+    </svg>
+  </div>
+
+  <p style="text-align:center; color: var(--text-light); font-size: 0.85rem;">
+    <em>Schema simplificato: nodi (punti blu), pilastri (rosso), travi (blu)</em>
+  </p>
+</section>
+
+</div>
+
+<footer>
+  <p><strong>Telaio3D Web — Documentazione Tecnica</strong></p>
+  <p class="disclaimer">
+    <strong>Disclaimer:</strong> Questa documentazione è fornita a solo scopo informativo. L'applicazione esegue analisi strutturali secondo i principi della meccanica computazionale. 
+    I risultati devono essere verificati e validati da un ingegnere strutturale qualificato prima dell'uso progettuale. 
+    L'autore non assume alcuna responsabilità per errori o omissioni.
+  </p>
+  <p style="margin-top:1rem; font-size:0.8rem;">
+    Ultimo aggiornamento:Aprile 2026 | Repository: github.com/DomenicoGaudioso/telaio3D
+  </p>
+</footer>
+
+</body>
+</html>
